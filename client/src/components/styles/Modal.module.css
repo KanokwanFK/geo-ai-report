@@ -1,0 +1,214 @@
+/* Modal Styles */
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    animation: modalAppear 0.2s ease-out;
+}
+
+@keyframes modalAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 20px 0 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.2s, background-color 0.2s;
+    line-height: 1;
+}
+
+.closeButton:hover {
+    color: #374151;
+    background-color: #f3f4f6;
+}
+
+.content {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Enhanced Mobile Responsive Design */
+@media (max-width: 1024px) {
+    .modal {
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        border-radius: 16px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .title {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+@media (max-width: 768px) {
+    .backdrop {
+        padding: 16px;
+    }
+
+    .modal {
+        max-width: 96vw;
+        max-height: 92vh;
+        border-radius: 16px;
+    }
+
+    .header {
+        padding: 20px 20px 0 20px;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+    
+    .closeButton {
+        font-size: 28px;
+        padding: 8px;
+        border-radius: 8px;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .backdrop {
+        padding: 12px;
+    }
+
+    .modal {
+        max-width: 98vw;
+        max-height: 94vh;
+        border-radius: 14px;
+    }
+
+    .header {
+        padding: 16px 16px 0 16px;
+    }
+
+    .content {
+        padding: 16px;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+    
+    .closeButton {
+        font-size: 24px;
+        padding: 6px;
+        border-radius: 6px;
+    }
+}
+
+@media (max-width: 480px) {
+    .backdrop {
+        padding: 8px;
+    }
+
+    .modal {
+        max-width: 100vw;
+        max-height: 96vh;
+        border-radius: 12px;
+    }
+
+    .header {
+        padding: 14px 14px 0 14px;
+    }
+
+    .content {
+        padding: 14px;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+    
+    .closeButton {
+        font-size: 22px;
+        padding: 6px;
+    }
+}
+
+@media (max-width: 375px) {
+    .backdrop {
+        padding: 4px;
+    }
+
+    .modal {
+        max-width: 100vw;
+        max-height: 98vh;
+        border-radius: 10px;
+    }
+
+    .header {
+        padding: 12px 12px 0 12px;
+    }
+
+    .content {
+        padding: 12px;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+    
+    .closeButton {
+        font-size: 20px;
+        padding: 4px;
+    }
+}

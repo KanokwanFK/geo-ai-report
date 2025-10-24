@@ -1,0 +1,172 @@
+/* Main container */
+.Container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1px;
+    gap: 30px;
+    background: #ffffff;
+}
+
+/* Map container */
+.mapContainer {
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 1px;
+}
+
+.mapImage {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Content container */
+.contentContainer {
+    text-align: center;
+    max-width: 1000px;
+}
+
+/* Start button */
+.startButton {
+    background: linear-gradient(135deg, #87CEEB, #84c2da);
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 12px 40px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(77, 119, 154, 0.3);
+    transition: all 0.3s ease;
+    font-family: 'Kanit', 'Noto Sans Thai', sans-serif;
+}
+
+.startButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(77, 119, 154, 0.4);
+    background: linear-gradient(135deg, #5896b1, #67a6b9);
+}
+
+.startButton:active {
+    transform: translateY(0);
+}
+
+/* Description text */
+.description {
+    font-size: 22px;
+    line-height: 1.6;
+    color: #333;
+    margin: 0;
+    font-family: 'Kanit', 'Noto Sans Thai', sans-serif;
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .Container {
+        padding: 20px;
+        gap: 24px;
+    }
+    
+    .mapContainer {
+        max-width: 900px;
+    }
+    
+    .description {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .Container {
+        padding: 16px;
+        gap: 20px;
+    }
+    
+    .mapContainer {
+        margin-bottom: 16px;
+    }
+    
+    .mapImage {
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    }
+    
+    .startButton {
+        padding: 14px 32px;
+        font-size: 16px;
+        border-radius: 12px;
+        margin-bottom: 16px;
+    }
+    
+    .description {
+        font-size: 18px;
+        line-height: 1.7;
+    }
+}
+
+@media (max-width: 640px) {
+    .Container {
+        padding: 12px;
+        gap: 16px;
+    }
+    
+    .startButton {
+        padding: 12px 28px;
+        font-size: 15px;
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .description {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+}
+
+@media (max-width: 480px) {
+    .Container {
+        padding: 10px;
+        gap: 14px;
+    }
+    
+    .mapImage {
+        border-radius: 10px;
+    }
+    
+    .startButton {
+        padding: 12px 24px;
+        font-size: 14px;
+        width: 100%;
+        max-width: 280px;
+        border-radius: 10px;
+    }
+    
+    .description {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 375px) {
+    .Container {
+        padding: 8px;
+        gap: 12px;
+    }
+    
+    .startButton {
+        padding: 10px 20px;
+        font-size: 13px;
+        max-width: 260px;
+    }
+    
+    .description {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+}

@@ -1,0 +1,303 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.title{
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    font-family: 'Kanit', 'Noto Sans Thai', sans-serif;
+    color: #333;
+    text-align: center;
+}
+
+.formContainer {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.form {
+    width: 100%;
+}
+
+.nameRow {
+    display: flex;
+    gap: 15px;
+}
+
+.nameRow .ant-form-item {
+    flex: 1;
+}
+
+.submitButton {
+    width: 100%;
+    height: 45px;
+    font-size: 16px;
+    font-weight: 500;
+    background: linear-gradient(45deg, #67a6b9, #67a6b9);
+    border: none;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.submitButton:hover {
+    background: linear-gradient(45deg, #67a6b9, #67a6b9);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px #9bcde0;
+}
+
+.loginLink {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    font-family: 'Kanit', 'Noto Sans Thai', sans-serif;
+}
+
+.loginLink a {
+    color: #1890ff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.loginLink a:hover {
+    color: #9bcde0;
+    text-decoration: underline;
+}
+
+/* Form styling */
+.form .ant-form-item-label > label {
+    font-family: 'Kanit', 'Noto Sans Thai', sans-serif;
+    font-weight: 500;
+    color: #333;
+}
+
+.form .ant-input,
+.form .ant-input-password,
+.form .ant-select-selector,
+.form .ant-picker {
+    border-radius: 8px;
+    border: 1px solid #d9d9d9;
+    height: 40px;
+    font-family: 'Kanit', 'Noto Sans Thai', sans-serif;
+}
+
+.form .ant-input:focus,
+.form .ant-input-password:focus,
+.form .ant-select-focused .ant-select-selector,
+.form .ant-picker:hover,
+.form .ant-picker-focused {
+    border-color: #9bcde0;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.form .ant-form-item-explain-error {
+    font-family: 'Kanit', 'Noto Sans Thai', sans-serif;
+}
+
+/* Enhanced Mobile Responsive Design */
+@media (max-width: 1024px) {
+    .container {
+        padding: 24px;
+        min-height: calc(100vh - 60px);
+    }
+    
+    .formContainer {
+        max-width: 550px;
+        padding: 48px;
+        border-radius: 20px;
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+    
+    .title {
+        font-size: 30px;
+        background: linear-gradient(135deg, #09090b 0%, #0f0c12 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .formContainer {
+        padding: 40px 32px;
+        border-radius: 18px;
+        max-width: 480px;
+    }
+    
+    .title {
+        font-size: 26px;
+        margin-bottom: 32px;
+    }
+    
+    .nameRow {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .form .ant-input,
+    .form .ant-input-password,
+    .form .ant-select-selector,
+    .form .ant-picker {
+        height: 46px;
+        border-radius: 12px;
+        border: 2px solid #e2e8f0;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    
+    .form .ant-input:focus,
+    .form .ant-input-password:focus,
+    .form .ant-select-focused .ant-select-selector,
+    .form .ant-picker:hover,
+    .form .ant-picker-focused {
+        border-color: #000000;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        transform: translateY(-1px);
+    }
+    
+    .submitButton {
+        height: 50px;
+        font-size: 17px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #67a6b9 0%, #90c7d7 100%);
+        border-radius: 12px;
+        margin-top: 16px;
+        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+    }
+    
+    .submitButton:hover {
+        background: linear-gradient(135deg, #67a6b9 0%, #90c7d7 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    }
+    
+    .form .ant-form-item-label > label {
+        font-size: 15px;
+        font-weight: 600;
+        color: #475569;
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 16px;
+    }
+    
+    .formContainer {
+        padding: 32px 24px;
+        border-radius: 16px;
+    }
+    
+    .title {
+        font-size: 24px;
+        margin-bottom: 28px;
+    }
+    
+    .form .ant-input,
+    .form .ant-input-password,
+    .form .ant-select-selector,
+    .form .ant-picker {
+        height: 44px;
+        border-radius: 10px;
+        font-size: 15px;
+    }
+    
+    .submitButton {
+        height: 48px;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+    
+    .loginLink {
+        margin-top: 24px;
+        font-size: 15px;
+        padding: 16px;
+        background: rgba(102, 126, 234, 0.05);
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 12px;
+    }
+    
+    .formContainer {
+        padding: 28px 20px;
+        border-radius: 14px;
+        margin: 0;
+    }
+    
+    .title {
+        font-size: 22px;
+        margin-bottom: 24px;
+    }
+    
+    .form .ant-input,
+    .form .ant-input-password,
+    .form .ant-select-selector,
+    .form .ant-picker {
+        height: 42px;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+    
+    .submitButton {
+        height: 46px;
+        font-size: 15px;
+        border-radius: 8px;
+    }
+    
+    .form .ant-form-item-label > label {
+        font-size: 14px;
+    }
+    
+    .loginLink {
+        font-size: 14px;
+        margin-top: 20px;
+        padding: 12px;
+    }
+}
+
+@media (max-width: 375px) {
+    .container {
+        padding: 8px;
+    }
+    
+    .formContainer {
+        padding: 24px 16px;
+        border-radius: 12px;
+    }
+    
+    .title {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .form .ant-input,
+    .form .ant-input-password,
+    .form .ant-select-selector,
+    .form .ant-picker {
+        height: 40px;
+        font-size: 13px;
+    }
+    
+    .submitButton {
+        height: 44px;
+        font-size: 14px;
+    }
+}

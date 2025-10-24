@@ -1,0 +1,417 @@
+{
+  "name": "My AI",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "สวีดัส",
+        "options": {
+          "showWelcomeScreen": true,
+          "subtitle": "ยินดีต้อนรับ",
+          "title": "รายงานสาธารณะ",
+          "responseMode": "lastNode"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -160,
+        -96
+      ],
+      "id": "67db0b6b-2096-4bf5-ac4f-bc2002d96b99",
+      "name": "When chat message received",
+      "webhookId": "400731d1-9bf5-4c51-aff2-ec047b2c7e43"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}\n{{ $json.sessionId }}\n\nคุณคือแชทบอทที่เป็นมิตรสำหรับระบบ Geo-AI Report ตอบกลับอย่างละเอียดและสุภาพกับผู้ใช้ทุกคน พยายามขยายคำตอบให้มีเนื้อหามากขึ้น ไม่ตอบสั้นเกินไป ตอบเป็นภาษาไทยหรือภาษาที่ผู้ใช้พิมพ์มาเท่านั้น หากเป็นข้อมูลเฉพาะโปรเจคนี้ให้ตอบโดยอิงข้อมูลที่เกี่ยวข้องกับระบบรายงานปัญหาในประเทศไทย\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        176,
+        -32
+      ],
+      "id": "163440b7-d206-4e27-8fa7-4dbb13d11460",
+      "name": "AI Agent",
+      "alwaysOutputData": false,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "model": "qwen2.5:latest",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        208
+      ],
+      "id": "00b3492b-1cc6-4743-a131-be98e272449a",
+      "name": "Ollama Chat Model",
+      "credentials": {
+        "ollamaApi": {
+          "id": "0hJkcNSbFkVEk7d1",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "0b373e8f-9542-4215-9d6b-14140dcb5ad9",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -160,
+        96
+      ],
+      "id": "4bd7069d-dcc0-4799-9c39-bdc986826f79",
+      "name": "Webhook",
+      "webhookId": "0b373e8f-9542-4215-9d6b-14140dcb5ad9"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        160,
+        224
+      ],
+      "id": "f15335cc-c4d8-4e30-b55e-681e94a00e8c",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "ZlmbFvyDCV4oFX0w",
+          "name": "Demo 2.2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "knowledge_base",
+        "toolDescription": "1.ตอบตามข้อมูลที่มีปัจจุบัน\n2.ลงท้ายด้วยค่ะ",
+        "memoryKey": {
+          "__rl": true,
+          "value": "vector_store_key",
+          "mode": "list",
+          "cachedResultName": "vector_store_key"
+        }
+      },
+      "id": "eec598b6-112b-4379-bb0d-2c85c822af64",
+      "name": "Query Data Tool",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "position": [
+        288,
+        272
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "formTitle": "Upload your data to test RAG",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Upload your file(s)",
+              "fieldType": "file",
+              "acceptFileTypes": ".pdf, .csv",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "92478333-98a1-4787-a586-3fb3c80f2934",
+      "name": "Upload your file here",
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        -976,
+        -48
+      ],
+      "webhookId": "290fa6a9-7350-4df4-9025-2d4f44e82bc2",
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {}
+      },
+      "id": "19479a95-b427-45b6-8251-5b55ea48cc85",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "position": [
+        -480,
+        112
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "content": "### 📚 Load Data Flow",
+        "height": 460,
+        "width": 700,
+        "color": 7
+      },
+      "id": "3f32e97d-12e4-41ab-9845-ebde895e7010",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1040,
+        -112
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": "qwen2.5:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        448
+      ],
+      "id": "57c95e7e-5f38-490e-8a06-05bb8b916670",
+      "name": "Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "0hJkcNSbFkVEk7d1",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "N8NVV",
+          "mode": "list",
+          "cachedResultName": "N8NVV"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        -768,
+        -48
+      ],
+      "id": "3b8bbfcc-3bee-4651-9997-1a18efb174d6",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "v7ko8aWSsUtjWQ0s",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/plain"
+              }
+            ]
+          },
+          "responseKey": "={{ Object.values($node[\"AI Agent\"].json)[0].output }}"
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        576,
+        -16
+      ],
+      "id": "c19346f1-e385-439f-a842-dc77cae6182a",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "content": "### 🐕 2. Retriever Flow",
+        "height": 580,
+        "width": 1000,
+        "color": 7
+      },
+      "id": "19a0d771-cd46-418d-b8f2-d3c56101c0d4",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -304,
+        -160
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "### 📚 Embedding",
+        "height": 300,
+        "width": 280,
+        "color": 7
+      },
+      "id": "ffbde1a9-7082-4493-af8f-1a54a48b8ce5",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -480,
+        320
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-sonnet-4-20250514",
+          "mode": "list",
+          "cachedResultName": "Claude Sonnet 4"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        752,
+        192
+      ],
+      "id": "2a60a6cf-9352-4334-ae59-d88e4d5e2017",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "nsuaaYzTTmCFwkkH",
+          "name": "Claude"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Query Data Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload your file here": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          },
+          {
+            "node": "Query Data Tool",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "05418d6d-2881-4d86-8b73-d5b718f693bb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "558d88703fb65b2d0e44613bc35916258b0f0bf983c5d4730c00c424b77ca36a"
+  },
+  "id": "RoYdurBo4bIJhdfE",
+  "tags": []
+}

@@ -1,0 +1,301 @@
+/* Report Form Styles */
+.formContainer {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+
+.error {
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.input,
+.select,
+.textarea {
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: 'Kanit', sans-serif;
+    transition: border-color 0.2s;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.locationGroup {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.fileInput {
+    padding: 8px;
+    border: 2px dashed #d1d5db;
+    border-radius: 6px;
+    background-color: #f9fafb;
+    cursor: pointer;
+}
+
+.fileInput:hover {
+    border-color: #9ca3af;
+}
+
+.fileHelp {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 4px 0 0 0;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.cancelButton {
+    padding: 10px 20px;
+    border: 1px solid #d1d5db;
+    background-color: white;
+    color: #374151;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cancelButton:hover:not(:disabled) {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+}
+
+.submitButton {
+    padding: 10px 20px;
+    border: none;
+    background-color: #3b82f6;
+    color: white;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submitButton:hover:not(:disabled) {
+    background-color: #2563eb;
+}
+
+.cancelButton:disabled,
+.submitButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Enhanced Mobile Responsive Design */
+@media (max-width: 1024px) {
+    .formContainer {
+        max-width: 700px;
+        padding: 24px;
+        background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .title {
+        font-size: 26px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+@media (max-width: 768px) {
+    .formContainer {
+        margin: 16px;
+        padding: 20px;
+        border-radius: 16px;
+    }
+    
+    .title {
+        font-size: 24px;
+    }
+
+    .locationGroup {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .buttonGroup {
+        flex-direction: column-reverse;
+        gap: 16px;
+    }
+
+    .cancelButton,
+    .submitButton {
+        width: 100%;
+        padding: 14px;
+        font-size: 16px;
+        border-radius: 12px;
+    }
+    
+    .input,
+    .select,
+    .textarea {
+        padding: 12px 14px;
+        font-size: 16px;
+        border-radius: 12px;
+    }
+    
+    .textarea {
+        min-height: 120px;
+    }
+}
+
+@media (max-width: 640px) {
+    .formContainer {
+        margin: 12px;
+        padding: 16px;
+        border-radius: 14px;
+    }
+    
+    .title {
+        font-size: 22px;
+    }
+    
+    .form {
+        gap: 16px;
+    }
+    
+    .input,
+    .select,
+    .textarea {
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+    
+    .cancelButton,
+    .submitButton {
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .formContainer {
+        margin: 8px;
+        padding: 12px;
+        border-radius: 12px;
+    }
+    
+    .title {
+        font-size: 20px;
+    }
+    
+    .form {
+        gap: 14px;
+    }
+    
+    .input,
+    .select,
+    .textarea {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 8px;
+    }
+    
+    .textarea {
+        min-height: 100px;
+    }
+    
+    .cancelButton,
+    .submitButton {
+        padding: 12px;
+        font-size: 16px;
+        border-radius: 8px;
+        min-height: 48px;
+    }
+    
+    .fileInput {
+        padding: 10px;
+        border-radius: 8px;
+    }
+}
+
+@media (max-width: 375px) {
+    .formContainer {
+        margin: 4px;
+        padding: 10px;
+        border-radius: 10px;
+    }
+    
+    .title {
+        font-size: 18px;
+    }
+    
+    .form {
+        gap: 12px;
+    }
+    
+    .input,
+    .select,
+    .textarea {
+        padding: 10px;
+        font-size: 16px;
+    }
+    
+    .cancelButton,
+    .submitButton {
+        padding: 14px;
+        font-size: 16px;
+        min-height: 50px;
+    }
+}

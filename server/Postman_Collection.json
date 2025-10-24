@@ -1,0 +1,723 @@
+{
+  "info": {
+    "name": "Geo AI Report System API",
+    "description": "Complete API collection for testing the Geo AI Report System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3003/api",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "report_id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "User Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\",\n  \"first_name\": \"ทดสอบ\",\n  \"last_name\": \"ระบบ\",\n  \"phone\": \"0812345678\",\n  \"birth_date\": \"1990-01-01\",\n  \"address\": \"123 ถนนทดสอบ\",\n  \"province\": \"กรุงเทพมหานคร\",\n  \"district\": \"ห้วยขวาง\",\n  \"subdistrict\": \"ห้วยขวาง\",\n  \"user_type\": \"user\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Login User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/users/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "2"]
+            }
+          }
+        },
+        {
+          "name": "Update User Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"ทดสอบอัพเดท\",\n  \"last_name\": \"ระบบใหม่\",\n  \"phone\": \"0898765432\",\n  \"address\": \"456 ถนนใหม่\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/2",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "2"]
+            }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"old_password\": \"password123\",\n  \"new_password\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/2/password",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "2", "password"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Management",
+      "item": [
+        {
+          "name": "Get All Users (Admin)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/admin/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users"]
+            }
+          }
+        },
+        {
+          "name": "Create Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 2,\n  \"admin_level\": \"moderator\",\n  \"department\": \"Support Department\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "create"]
+            }
+          }
+        },
+        {
+          "name": "Update Admin Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"is_active\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/1/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "1", "status"]
+            }
+          }
+        },
+        {
+          "name": "Delete User (Admin)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/admin/users/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "users", "5"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Problem Types",
+      "item": [
+        {
+          "name": "Get All Problem Types",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/problem-types",
+              "host": ["{{baseUrl}}"],
+              "path": ["problem-types"]
+            }
+          }
+        },
+        {
+          "name": "Get Problem Type by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/problem-types/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["problem-types", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Problem Type",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type_name\": \"ขยะ\",\n  \"description\": \"ปัญหาเกี่ยวกับขยะและความสะอาด\",\n  \"color_code\": \"#FFA500\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/problem-types",
+              "host": ["{{baseUrl}}"],
+              "path": ["problem-types"]
+            }
+          }
+        },
+        {
+          "name": "Update Problem Type",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type_name\": \"ขยะและความสะอาด\",\n  \"description\": \"ปัญหาเกี่ยวกับขยะ ความสะอาด และสิ่งแวดล้อม\",\n  \"color_code\": \"#FF8C00\",\n  \"is_active\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/problem-types/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["problem-types", "5"]
+            }
+          }
+        },
+        {
+          "name": "Delete Problem Type",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/problem-types/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["problem-types", "5"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Create Report",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 2,\n  \"problem_type_id\": 1,\n  \"title\": \"ถนนเป็นหลุมใหญ่มาก\",\n  \"description\": \"ถนนหน้าบ้านเป็นหลุมใหญ่มาก รถผ่านลำบาก อันตราย\",\n  \"latitude\": 13.7563,\n  \"longitude\": 100.5018,\n  \"location_detail\": \"หน้าบ้านเลขที่ 456 ถนนรัชดาภิเษก\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"]
+            }
+          }
+        },
+        {
+          "name": "Get All Reports",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/reports",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"]
+            }
+          }
+        },
+        {
+          "name": "Get Reports by Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/reports?status=pending&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "pending"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Reports by User",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/reports?user_id=2",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports"],
+              "query": [
+                {
+                  "key": "user_id",
+                  "value": "2"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Report by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/reports/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update Report Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"in_progress\",\n  \"admin_id\": 1,\n  \"comment\": \"เริ่มดำเนินการแก้ไขแล้ว\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports/1/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "1", "status"]
+            }
+          }
+        },
+        {
+          "name": "Update Report Details",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"ถนนเป็นหลุมใหญ่มาก (อัพเดท)\",\n  \"description\": \"ถนนหน้าบ้านเป็นหลุมใหญ่มาก รถผ่านลำบาก อันตราย - อัพเดทข้อมูลเพิ่มเติม\",\n  \"problem_type_id\": 1,\n  \"latitude\": 13.7563,\n  \"longitude\": 100.5018,\n  \"location_detail\": \"หน้าบ้านเลขที่ 456 ถนนรัชดาภิเษก แขวงห้วยขวาง\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get Report Status History",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/reports/1/status-history",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "1", "status-history"]
+            }
+          }
+        },
+        {
+          "name": "Delete Report",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/reports/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "3"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Image Upload",
+      "item": [
+        {
+          "name": "Upload Single Image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports/1/images",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "1", "images"]
+            }
+          }
+        },
+        {
+          "name": "Upload Multiple Images",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": []
+                },
+                {
+                  "key": "images",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reports/1/images/multiple",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "1", "images", "multiple"]
+            }
+          }
+        },
+        {
+          "name": "Get Report Images",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/reports/1/images",
+              "host": ["{{baseUrl}}"],
+              "path": ["reports", "1", "images"]
+            }
+          }
+        },
+        {
+          "name": "Delete Image",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/images/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["images", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Notifications",
+      "item": [
+        {
+          "name": "Get User Notifications",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/users/2/notifications",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "2", "notifications"]
+            }
+          }
+        },
+        {
+          "name": "Get Unread Notifications",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/users/2/notifications?is_read=false",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "2", "notifications"],
+              "query": [
+                {
+                  "key": "is_read",
+                  "value": "false"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 2,\n  \"report_id\": 1,\n  \"title\": \"อัพเดทสถานะรายงาน\",\n  \"message\": \"รายงานของคุณได้รับการอัพเดทสถานะเป็น 'กำลังดำเนินการ'\",\n  \"type\": \"info\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/notifications",
+              "host": ["{{baseUrl}}"],
+              "path": ["notifications"]
+            }
+          }
+        },
+        {
+          "name": "Mark Notification as Read",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/notifications/1/read",
+              "host": ["{{baseUrl}}"],
+              "path": ["notifications", "1", "read"]
+            }
+          }
+        },
+        {
+          "name": "Mark All Notifications as Read",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/users/2/notifications/read-all",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "2", "notifications", "read-all"]
+            }
+          }
+        },
+        {
+          "name": "Get Unread Count",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/users/2/notifications/unread-count",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "2", "notifications", "unread-count"]
+            }
+          }
+        },
+        {
+          "name": "Delete Notification",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/notifications/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["notifications", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "System Settings",
+      "item": [
+        {
+          "name": "Get All Settings",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/settings",
+              "host": ["{{baseUrl}}"],
+              "path": ["settings"]
+            }
+          }
+        },
+        {
+          "name": "Get Setting by Key",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/settings/app_name",
+              "host": ["{{baseUrl}}"],
+              "path": ["settings", "app_name"]
+            }
+          }
+        },
+        {
+          "name": "Create/Update Setting",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"setting_key\": \"test_setting\",\n  \"setting_value\": \"test_value\",\n  \"description\": \"การตั้งค่าทดสอบ\",\n  \"data_type\": \"STRING\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/settings",
+              "host": ["{{baseUrl}}"],
+              "path": ["settings"]
+            }
+          }
+        },
+        {
+          "name": "Update Setting",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"setting_value\": \"updated_test_value\",\n  \"description\": \"การตั้งค่าทดสอบที่อัพเดทแล้ว\",\n  \"data_type\": \"STRING\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/settings/test_setting",
+              "host": ["{{baseUrl}}"],
+              "path": ["settings", "test_setting"]
+            }
+          }
+        },
+        {
+          "name": "Delete Setting",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/settings/test_setting",
+              "host": ["{{baseUrl}}"],
+              "path": ["settings", "test_setting"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard & Statistics",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/dashboard/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["dashboard", "stats"]
+            }
+          }
+        },
+        {
+          "name": "Get Reports by Problem Type",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/dashboard/reports-by-type",
+              "host": ["{{baseUrl}}"],
+              "path": ["dashboard", "reports-by-type"]
+            }
+          }
+        },
+        {
+          "name": "Get Recent Reports",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/dashboard/recent-reports?limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["dashboard", "recent-reports"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

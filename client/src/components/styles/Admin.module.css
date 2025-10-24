@@ -1,0 +1,577 @@
+.adminContainer {
+    padding: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 100vh;
+}
+
+.headerSection{
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background-color: rgba(103, 166, 185, 0.1);
+    /* background: linear-gradient(135deg,  */
+        /* #FFB3E6 0%,    ชมพูพาสเทล */
+        /* #E6B3FF 20%,   ม่วงพาสเทล */
+        /* #B3D9FF 40%,   ฟ้าพาสเทล */
+        /* #B3FFD9 60%,   เขียวพาสเทล */
+        /* #FFFFE6 80%,   เหลืองพาสเทล */
+        /* #FFCCB3 100%   ส้มพาสเทล */
+    /* ); */
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    color: #333333;
+    border: none;
+}
+
+.welcomeSection {
+    display: flex;
+    flex-direction: column;
+}
+
+.welcomeText {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #333333;
+    margin: 0;
+}
+
+.headerButtons{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column-reverse;
+    align-items: stretch;
+    height: 110px;
+}
+
+.adminName {
+    font-size: 1.2rem;
+    color: rgba(51, 51, 51, 0.8);
+    margin: 0.5rem 0 0 0;
+}
+
+.todayReport {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    background: rgba(103, 166, 185, 0.1);
+    border-radius: 12px;
+    border-left: 3px solid #67a6b9;
+}
+
+.todayLabel {
+    font-size: 0.75rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.todayCount {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #67a6b9;
+}
+
+.updateButton{
+    background: rgba(110, 160, 207, 0.2);
+    color: #336699;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.refreshButton {
+    background: rgba(155, 230, 138, 0.2);
+    color: #2c6a30;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.refreshButton:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.refreshButton:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    cursor: not-allowed;
+    opacity: 0.4;
+    color: rgba(51, 51, 51, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: none;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 1024px) {
+    .statsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .statsGrid {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 0.5rem;
+    }
+}
+
+.statCard {
+    padding: 1.2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    text-align: left;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    border: 1px solid #f0f0f0;
+}
+
+.statCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.cardIcon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.cardContent {
+    flex: 1;
+}
+
+.statNumber {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    color: #1a1a1a;
+    line-height: 1;
+}
+
+.statLabel {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0.3rem 0 0 0;
+    font-weight: 500;
+}
+
+.totalReports {
+    background: linear-gradient(135deg, #99CCFF 0%, #CCE5FF 100%);
+    color: #336699;
+    border: none;
+}
+
+.totalReports .cardIcon {
+    background: rgba(51, 102, 153, 0.15);
+    color: #336699;
+}
+
+.totalReports .statNumber {
+    color: #336699;
+}
+
+.totalReports .statLabel {
+    color: rgba(51, 102, 153, 0.8);
+}
+
+.pendingReports {
+    background: linear-gradient(135deg, #FFB3BA 0%, #FFDFDF 100%);
+    color: #8E4A4F;
+    border: none;
+}
+
+.pendingReports .cardIcon {
+    background: rgba(142, 74, 79, 0.15);
+    color: #8E4A4F;
+}
+
+.pendingReports .statNumber {
+    color: #8E4A4F;
+}
+
+.pendingReports .statLabel {
+    color: rgba(142, 74, 79, 0.8);
+}
+
+.checkingReports {
+    background: linear-gradient(135deg, #FFCC99 0%, #FFE8CC 100%);
+    color: #8B5A3C;
+    border: none;
+}
+
+.checkingReports .cardIcon {
+    background: rgba(139, 90, 60, 0.15);
+    color: #8B5A3C;
+}
+
+.checkingReports .statNumber {
+    color: #8B5A3C;
+}
+
+.checkingReports .statLabel {
+    color: rgba(139, 90, 60, 0.8);
+}
+
+.inProgressReports {
+    background: linear-gradient(135deg, #99DDFF 0%, #CCF0FF 100%);
+    color: #3A6B80;
+    border: none;
+}
+
+.inProgressReports .cardIcon {
+    background: rgba(58, 107, 128, 0.15);
+    color: #3A6B80;
+}
+
+.inProgressReports .statNumber {
+    color: #3A6B80;
+}
+
+.inProgressReports .statLabel {
+    color: rgba(58, 107, 128, 0.8);
+}
+
+.resolvedReports {
+    background: linear-gradient(135deg, #99FF99 0%, #CCFFCC 100%);
+    color: #4D804D;
+    border: none;
+}
+
+.resolvedReports .cardIcon {
+    background: rgba(77, 128, 77, 0.15);
+    color: #4D804D;
+}
+
+.resolvedReports .statNumber {
+    color: #4D804D;
+}
+
+.resolvedReports .statLabel {
+    color: rgba(77, 128, 77, 0.8);
+}
+
+.waitingReports {
+    background: linear-gradient(135deg, #FFFF99 0%, #FFFFCC 100%);
+    color: #8B8B47;
+    border: none;
+}
+
+.waitingReports .cardIcon {
+    background: rgba(139, 139, 71, 0.15);
+    color: #8B8B47;
+}
+
+.waitingReports .statNumber {
+    color: #8B8B47;
+}
+
+.waitingReports .statLabel {
+    color: rgba(139, 139, 71, 0.8);
+}
+
+.rejectedReports {
+    background: linear-gradient(135deg, #FF9999 0%, #FFCCCC 100%);
+    color: #804D4D;
+    border: none;
+}
+
+.rejectedReports .cardIcon {
+    background: rgba(128, 77, 77, 0.15);
+    color: #804D4D;
+}
+
+.rejectedReports .statNumber {
+    color: #804D4D;
+}
+
+.rejectedReports .statLabel {
+    color: rgba(128, 77, 77, 0.8);
+}
+
+.todayReportsCard {
+    background: linear-gradient(135deg, #CC99FF 0%, #E5CCFF 100%);
+    color: #6633CC;
+    border: none;
+}
+
+.todayReportsCard .cardIcon {
+    background: rgba(102, 51, 204, 0.15);
+    color: #6633CC;
+}
+
+.todayReportsCard .statNumber {
+    color: #6633CC;
+}
+
+.todayReportsCard .statLabel {
+    color: rgba(102, 51, 204, 0.8);
+}
+
+.totalUsers {
+    background: linear-gradient(135deg, #E8D5FF 0%, #C7B8EA 100%);
+    color: #8B5FBF;
+    border: 1px solid rgba(199, 184, 234, 0.3);
+}
+
+.totalUsers .cardIcon {
+    background: rgba(139, 95, 191, 0.15);
+    color: #8B5FBF;
+}
+
+.totalUsers .statNumber {
+    color: #8B5FBF;
+}
+
+.totalUsers .statLabel {
+    color: #6B4C8A;
+}
+
+.totalAdmins {
+    background: linear-gradient(135deg, #FFE1E6 0%, #F8BBD9 100%);
+    color: #D63384;
+    border: 1px solid rgba(248, 187, 217, 0.3);
+}
+
+.totalAdmins .cardIcon {
+    background: rgba(214, 51, 132, 0.15);
+    color: #D63384;
+}
+
+.totalAdmins .statNumber {
+    color: #D63384;
+}
+
+.totalAdmins .statLabel {
+    color: #B02A5B;
+}
+
+.activeProblemTypes {
+    background: linear-gradient(135deg, #E1F3FF 0%, #B3E0FF 100%);
+    color: #0084FF;
+    border: 1px solid rgba(179, 224, 255, 0.3);
+}
+
+.activeProblemTypes .cardIcon {
+    background: rgba(0, 132, 255, 0.15);
+    color: #0084FF;
+}
+
+.activeProblemTypes .statNumber {
+    color: #0084FF;
+}
+
+.activeProblemTypes .statLabel {
+    color: #0066CC;
+}
+
+.problemTypesSection {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.problemTypesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.problemTypeCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    transition: background-color 0.3s ease;
+}
+
+.problemTypeCard:hover {
+    background: #e9ecef;
+}
+
+.problemTypeInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.emojiIcon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.problemTypeName {
+    font-weight: 500;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.problemTypeCount {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #3498db;
+    background: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    border: 1px solid #e0e0e0;
+}
+
+.loadingMessage {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.errorMessage {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.1rem;
+    color: #e74c3c;
+    background: #ffeaea;
+    border: 1px solid #f5b7b1;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.noDataMessage {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 768px) {
+    .adminContainer {
+        padding: 1rem;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+    
+    .welcomeText {
+        font-size: 1.5rem;
+    }
+    
+    .adminName {
+        font-size: 1rem;
+    }
+    
+    .statsGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .statCard {
+        padding: 1.2rem;
+    }
+    
+    .cardIcon {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .statNumber {
+        font-size: 1.8rem;
+    }
+    
+    .problemTypesGrid {
+        grid-template-columns: 1fr;
+    }
+    
+    .problemTypeCard {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 1rem;
+    }
+    
+    .emojiIcon {
+        font-size: 1.3rem;
+    }
+    
+    .problemTypeName {
+        font-size: 0.9rem;
+    }
+    
+    .problemTypeCount {
+        font-size: 1rem;
+        padding: 0.2rem 0.6rem;
+    }
+    
+    .totalUsers .cardIcon,
+    .totalAdmins .cardIcon,
+    .activeProblemTypes .cardIcon {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    .totalUsers .statNumber,
+    .totalAdmins .statNumber,
+    .activeProblemTypes .statNumber {
+        font-size: 1.8rem;
+    }
+}
