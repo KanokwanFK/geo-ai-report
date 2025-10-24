@@ -75,7 +75,7 @@ const reportConfirmationTemplate = (data) => {
 
     <!-- Body -->
     <div class="email-body">
-      <p>เรียน คุณ<strong>${userName}</strong></p>
+      <p>เรียนคุณ <strong>${userName}</strong></p>
       
       <!-- Success Alert -->
       <div class="alert alert-success border-start border-success border-4" role="alert">
@@ -448,7 +448,7 @@ const statusUpdateTemplate = (data) => {
 
     <!-- Body -->
     <div class="email-body">
-      <p>เรียน คุณ<strong>${userName}</strong></p>
+      <p>เรียนคุณ <strong>${userName}</strong></p>
       
       ${isAdminConfirmation 
         ? `<div class="alert alert-success border-start border-success border-4" role="alert">
