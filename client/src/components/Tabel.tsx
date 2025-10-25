@@ -70,6 +70,10 @@ const Table = () => {
     const [dateFilter, setDateFilter] = useState('');
     const [problemTypes, setProblemTypes] = useState<ProblemType[]>([]);
     const [statusMappings, setStatusMappings] = useState<StatusMapping[]>([]);
+    
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
 
     // ดึงข้อมูลเมื่อ component mount
     useEffect(() => {
@@ -118,7 +122,31 @@ const Table = () => {
 
             return matchesProblemType && matchesStatus && matchesDate;
         })
-        .sort((a: Report, b: Report) => a.report_id - b.report_id); // เรียงตาม ID จากน้อยไปมาก    // ฟังก์ชันสำหรับเลือก/ยกเลิกเลือกแถว
+        .sort((a: Report, b: Report) => a.report_id - b.report_id); // เรียงตาม ID จากน้อยไปมาก
+
+    // Pagination calculations
+    const totalPages = Math.ceil(filteredReports.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentReports = filteredReports.slice(startIndex, endIndex);
+
+    // Reset to page 1 when filters change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [problemFilter, statusFilter, dateFilter]);
+
+    // Pagination handlers
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleItemsPerPageChange = (items: number) => {
+        setItemsPerPage(items);
+        setCurrentPage(1);
+    };
+
+    // ฟังก์ชันสำหรับเลือก/ยกเลิกเลือกแถว
     const handleRowSelect = (id: number) => {
         setSelectedRows(prev =>
             prev.includes(id)
@@ -357,14 +385,14 @@ const Table = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredReports.length === 0 ? (
+                        {currentReports.length === 0 ? (
                             <tr>
                                 <td colSpan={10} className={styles.noData}>
                                     ไม่พบข้อมูลรายงาน
                                 </td>
                             </tr>
                         ) : (
-                            filteredReports.map((report: Report) => (
+                            currentReports.map((report: Report) => (
                                 <tr key={report.report_id}>
                                     <td>
                                         <input
@@ -426,6 +454,56 @@ const Table = () => {
                         )}
                     </tbody>
                 </table>
+
+                {/* Pagination Controls */}
+                {filteredReports.length > 0 && (
+                    <div className={styles.paginationContainer}>
+                        <div className={styles.paginationInfo}>
+                            แสดง {startIndex + 1} - {Math.min(endIndex, filteredReports.length)} จาก {filteredReports.length} รายการ
+                        </div>
+                        
+                        <div className={styles.paginationControls}>
+                            <button
+                                className={styles.paginationButton}
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                            >
+                                ‹
+                            </button>
+                            
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                <button
+                                    key={page}
+                                    className={`${styles.paginationButton} ${currentPage === page ? styles.active : ''}`}
+                                    onClick={() => handlePageChange(page)}
+                                >
+                                    {page}
+                                </button>
+                            ))}
+                            
+                            <button
+                                className={styles.paginationButton}
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                            >
+                                ›
+                            </button>
+                        </div>
+
+                        <div className={styles.itemsPerPageSelector}>
+                            <select 
+                                value={itemsPerPage} 
+                                onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
+                                className={styles.itemsPerPageSelect}
+                            >
+                                <option value={5}>5 / page</option>
+                                <option value={10}>10 / page</option>
+                                <option value={20}>20 / page</option>
+                                <option value={50}>50 / page</option>
+                            </select>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

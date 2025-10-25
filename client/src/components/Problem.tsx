@@ -9,7 +9,6 @@ const Problem: React.FC = () => {
     const {
         // Data
         filteredReports,
-        statusInfo,
         selectedReport,
 
         // UI State
@@ -21,10 +20,7 @@ const Problem: React.FC = () => {
         selectReport,
         clearSelectedReport,
         setFilters,
-        refreshData,
-
-        // Utilities
-        getAvailableStatuses
+        refreshData
     } = useReportStatus();
 
     // Modal state
@@ -38,6 +34,10 @@ const Problem: React.FC = () => {
     const [statusFilter, setStatusFilter] = useState('');
     const [searchText, setSearchText] = useState('');
     const [problemTypes, setProblemTypes] = useState<any[]>([]);
+    
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
 
     // ฟังก์ชันเปิด Modal แสดงรายละเอียด
     const handleViewReport = async (reportId: number) => {
@@ -142,6 +142,7 @@ const Problem: React.FC = () => {
             try {
                 const response = await fetch('http://localhost:3003/api/problem-types');
                 const data = await response.json();
+                console.log('Problem types loaded:', data);
                 setProblemTypes(data);
             } catch (error) {
                 console.error('Error fetching problem types:', error);
@@ -180,26 +181,18 @@ const Problem: React.FC = () => {
         return statusColors[status] || '#6c757d';
     };
 
-    // ฟังก์ชันกำหนดสถานะที่สามารถเปลี่ยนได้ตามสถานะปัจจุบัน
-    const getAvailableStatusesForCurrent = (currentStatus: string) => {
-        const statusFlow: { [key: string]: string[] } = {
-            'รอตรวจสอบ': ['กำลังตรวจสอบ', 'ปฏิเสธ'],
-            'กำลังตรวจสอบ': ['รอดำเนินการ', 'ปฏิเสธ'],
-            'รอดำเนินการ': ['กำลังดำเนินการ', 'ปฏิเสธ'],
-            'กำลังดำเนินการ': ['เสร็จสิ้น', 'รอดำเนินการ'],
-            'เสร็จสิ้น': [], // ไม่สามารถเปลี่ยนจากเสร็จสิ้นได้
-            'ปฏิเสธ': ['รอตรวจสอบ'] // สามารถเปิดใหม่ได้
-        };
-
-        const allowedStatuses = statusFlow[currentStatus] || [];
-        return getAvailableStatuses().filter(status =>
-            allowedStatuses.includes(status.label)
-        );
-    };
-
     // ฟิลเตอร์รายงานโดยรวม (สถานะ + ประเภทปัญหา + ข้อความค้นหา)
     const additionalFilteredReports = React.useMemo(() => {
         let filtered = filteredReports; // เริ่มจากข้อมูลที่ถูกฟิลเตอร์จาก hook แล้ว
+        
+        console.log('Filtering reports:', {
+            totalReports: filteredReports.length,
+            problemFilter,
+            statusFilter,
+            searchText,
+            sampleReport: filteredReports[0],
+            sampleReportKeys: filteredReports[0] ? Object.keys(filteredReports[0]) : []
+        });
         
         // ฟิลเตอร์ตามข้อความค้นหา (ถ้ามี)
         if (searchText && searchText.trim() !== '') {
@@ -216,8 +209,31 @@ const Problem: React.FC = () => {
         }
         
         // ฟิลเตอร์ตามประเภทปัญหา
-        if (problemFilter && problemFilter !== '' && problemFilter !== 'ทั้งหมด') {
-            filtered = filtered.filter((report: any) => report.problem_type_name === problemFilter);
+        if (problemFilter && problemFilter !== '') {
+            console.log('PROBLEM TYPE FILTER DEBUG');
+            console.log('Selected problem filter:', problemFilter);
+            console.log('Total reports before filter:', filtered.length);
+            
+            // แสดงข้อมูลทั้งหมดของรายงานแรก
+            if (filtered.length > 0) {
+                console.log('Sample report structure:', filtered[0]);
+            }
+            
+            // แสดง problem_type ของทุกรายงาน (ใช้ problem_type แทน problem_type_name)
+            const problemTypes = filtered.map((r: any) => r.problem_type);
+            console.log('All problem_type values:', problemTypes);
+            console.log('Unique problem types:', [...new Set(problemTypes)]);
+            
+            // เปลี่ยนจาก problem_type_name เป็น problem_type
+            filtered = filtered.filter((report: any) => {
+                const matches = report.problem_type === problemFilter;
+                if (!matches) {
+                    console.log(`Report ${report.report_id}: "${report.problem_type}" !== "${problemFilter}"`);
+                }
+                return matches;
+            });
+            
+            console.log('Reports after filter:', filtered.length);
         }
         
         return filtered;
@@ -228,6 +244,28 @@ const Problem: React.FC = () => {
         return [...additionalFilteredReports].sort((a, b) => a.report_id - b.report_id);
     }, [additionalFilteredReports]);
 
+    // Pagination calculations
+    const totalPages = Math.ceil(sortedReports.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentReports = sortedReports.slice(startIndex, endIndex);
+
+    // Reset to page 1 when filters change
+    React.useEffect(() => {
+        setCurrentPage(1);
+    }, [problemFilter, statusFilter, searchText]);
+
+    // Pagination handlers
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleItemsPerPageChange = (items: number) => {
+        setItemsPerPage(items);
+        setCurrentPage(1);
+    };
+
     return (
         <div className={styles.problemContainer}>
             <div className={styles.header}>
@@ -237,10 +275,6 @@ const Problem: React.FC = () => {
                         <span className={styles.summaryLabel}>รายงานทั้งหมด</span>
                         <span className={styles.summaryValue}>{loading ? '...' : filteredReports.length}</span>
                     </div>
-                    {/* <div className={styles.summaryItem}>
-                        <span className={styles.summaryLabel}>กำลังแสดง</span>
-                        <span className={styles.summaryValue}>{loading ? '...' : additionalFilteredReports.length}</span>
-                    </div> */}
                 </div>
             </div>
 
@@ -278,9 +312,12 @@ const Problem: React.FC = () => {
                         <select
                             className={styles.filterSelect}
                             value={problemFilter}
-                            onChange={(e) => setProblemFilter(e.target.value)}
+                            onChange={(e) => {
+                                console.log('Problem filter changed to:', e.target.value);
+                                setProblemFilter(e.target.value);
+                            }}
                         >
-                            <option value="">ประเภทปัญหาทั้งหมด</option>
+                            <option key="all" value="">ประเภททั้งหมด</option>
                             {problemTypes.map(type => (
                                 <option key={type.problem_type_id} value={type.type_name}>
                                     {type.type_name}
@@ -294,10 +331,10 @@ const Problem: React.FC = () => {
                             onChange={(e) => handleFilterChange('dateRange', e.target.value)}
                             className={styles.filterSelect}
                         >
-                            <option value="">ทุกช่วงเวลา</option>
-                            <option value="today">วันนี้</option>
-                            <option value="week">สัปดาห์นี้</option>
-                            <option value="month">เดือนนี้</option>
+                            <option key="all" value="">ทุกช่วงเวลา</option>
+                            <option key="today" value="today">วันนี้</option>
+                            <option key="week" value="week">สัปดาห์นี้</option>
+                            <option key="month" value="month">เดือนนี้</option>
                         </select>
                     </div>
                     <button onClick={refreshData} className={styles.refreshButton} disabled={loading}>
@@ -309,40 +346,6 @@ const Problem: React.FC = () => {
                 </div>
             </div>
 
-
-            {/* สถิติสถานะ */}
-            <div className={styles.statusStats}>
-                {statusInfo.map(status => {
-                    const statusColor = getStatusColor(status.status_name);
-                    return (
-                        <div key={status.status_name} className={styles.statusCard}>
-                            <div
-                                className={styles.statusBadge}
-                                style={{ 
-                                    background: `linear-gradient(135deg, ${statusColor}80, ${statusColor}50)`,
-                                    backdropFilter: 'blur(15px)',
-                                    WebkitBackdropFilter: 'blur(15px)',
-                                    color: '#ffffff',
-                                    fontWeight: '600',
-                                    border: `1px solid ${statusColor}25`,
-                                    borderRadius: '5px',
-                                    padding: '10px 16px',
-                                    fontSize: '13px',
-                                    boxShadow: `0 12px 40px ${statusColor}25, inset 0 2px 4px rgba(255,255,255,0.15)`,
-                                    textShadow: '0 1px 3px rgba(0,0,0,0.4)',
-                                    position: 'relative',
-                                    overflow: 'hidden',
-                                    transition: 'all 0.3s ease'
-                                }}
-                            >
-                                {status.status_name}
-                            </div>
-                            <div className={styles.statusCount}>{status.report_count}</div>
-                        </div>
-                    );
-                })}
-            </div>
-
             {/* ตารางรายงาน */}
             <div className={styles.tableContainer}>
                 {loading ? (
@@ -350,20 +353,21 @@ const Problem: React.FC = () => {
                 ) : sortedReports.length === 0 ? (
                     <div className={styles.noData}>ไม่พบรายงานที่ตรงกับเงื่อนไข</div>
                 ) : (
-                    <table className={styles.reportTable}>
-                        <thead>
-                            <tr>
-                                <th style={{ textAlign: 'center' }}>ID</th>
-                                <th style={{ textAlign: 'center' }}>ประเภทปัญหา</th>
-                                <th style={{ textAlign: 'center' }}>ผู้รายงาน</th>
-                                <th style={{ textAlign: 'center' }}>สถานะ</th>
-                                <th style={{ textAlign: 'center' }}>วันที่สร้าง</th>
-                                <th style={{ textAlign: 'center' }}>วันที่อัปเดต</th>
-                                <th style={{ textAlign: 'center' }}>การจัดการ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {sortedReports.map(report => {
+                    <>
+                        <table className={styles.reportTable}>
+                            <thead>
+                                <tr>
+                                    <th style={{ textAlign: 'center' }}>ID</th>
+                                    <th style={{ textAlign: 'center' }}>ประเภทปัญหา</th>
+                                    <th style={{ textAlign: 'center' }}>ผู้รายงาน</th>
+                                    <th style={{ textAlign: 'center' }}>สถานะ</th>
+                                    <th style={{ textAlign: 'center' }}>วันที่สร้าง</th>
+                                    <th style={{ textAlign: 'center' }}>วันที่อัปเดต</th>
+                                    <th style={{ textAlign: 'center' }}>การจัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {currentReports.map(report => {
                                 const statusColor = getStatusColor(report.status);
                                 return (
                                     <tr key={report.report_id}>
@@ -402,13 +406,13 @@ const Problem: React.FC = () => {
                                                 >
                                                     {report.status}
                                                 </span>
-                                                <div className={styles.statusOptions}>
+                                                {/* <div className={styles.statusOptions}>
                                                     {getAvailableStatusesForCurrent(report.status).length > 0 && (
                                                         <small className={styles.optionsCount}>
                                                             {getAvailableStatusesForCurrent(report.status).length} ตัวเลือก
                                                         </small>
                                                     )}
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </td>
                                         <td>{new Date(report.created_at).toLocaleDateString('th-TH')}</td>
@@ -432,13 +436,13 @@ const Problem: React.FC = () => {
                                                     }}
                                                     disabled={updateLoading || loading}
                                                 >
-                                                    <option value="">เปลี่ยนสถานะ</option>
-                                                    <option value="รอตรวจสอบ">รอตรวจสอบ</option>
-                                                    <option value="กำลังตรวจสอบ">กำลังตรวจสอบ</option>
-                                                    <option value="รอดำเนินการ">รอดำเนินการ</option>
-                                                    <option value="กำลังดำเนินการ">กำลังดำเนินการ</option>
-                                                    <option value="เสร็จสิ้น">เสร็จสิ้น</option>
-                                                    <option value="ปฏิเสธ">ปฏิเสธ</option>
+                                                    <option key="empty" value="">เปลี่ยนสถานะ</option>
+                                                    <option key="รอตรวจสอบ" value="รอตรวจสอบ">รอตรวจสอบ</option>
+                                                    <option key="กำลังตรวจสอบ" value="กำลังตรวจสอบ">กำลังตรวจสอบ</option>
+                                                    <option key="รอดำเนินการ" value="รอดำเนินการ">รอดำเนินการ</option>
+                                                    <option key="กำลังดำเนินการ" value="กำลังดำเนินการ">กำลังดำเนินการ</option>
+                                                    <option key="เสร็จสิ้น" value="เสร็จสิ้น">เสร็จสิ้น</option>
+                                                    <option key="ปฏิเสธ" value="ปฏิเสธ">ปฏิเสธ</option>
                                                 </select>
                                             </div>
                                         </td>
@@ -447,6 +451,57 @@ const Problem: React.FC = () => {
                             })}
                         </tbody>
                     </table>
+
+                    {/* Pagination Controls */}
+                    {sortedReports.length > 0 && (
+                        <div className={styles.paginationContainer}>
+                            <div className={styles.paginationInfo}>
+                                แสดง {startIndex + 1} - {Math.min(endIndex, sortedReports.length)} จาก {sortedReports.length} รายการ
+                            </div>
+                            
+                            <div className={styles.paginationControls}>
+                                <button
+                                    className={styles.paginationButton}
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                >
+                                    ‹
+                                </button>
+                                
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                                    <button
+                                        key={page}
+                                        className={`${styles.paginationButton} ${currentPage === page ? styles.active : ''}`}
+                                        onClick={() => handlePageChange(page)}
+                                    >
+                                        {page}
+                                    </button>
+                                ))}
+                                
+                                <button
+                                    className={styles.paginationButton}
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    ›
+                                </button>
+                            </div>
+
+                            <div className={styles.itemsPerPageSelector}>
+                                <select 
+                                    value={itemsPerPage} 
+                                    onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
+                                    className={styles.itemsPerPageSelect}
+                                >
+                                    <option value={5}>5 / page</option>
+                                    <option value={10}>10 / page</option>
+                                    <option value={20}>20 / page</option>
+                                    <option value={50}>50 / page</option>
+                                </select>
+                            </div>
+                        </div>
+                    )}
+                    </>
                 )}
             </div>
 

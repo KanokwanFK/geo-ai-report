@@ -1106,3 +1106,118 @@
     padding: 8px;
   }
 }
+
+/* Pagination Styles */
+.paginationContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.paginationInfo {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.paginationControls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.paginationButton {
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid #ddd;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paginationButton:hover:not(:disabled) {
+  background: #67a6b9;
+  color: white;
+  border-color: #67a6b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(103, 166, 185, 0.3);
+}
+
+.paginationButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #f5f5f5;
+}
+
+.paginationButton.active {
+  background: linear-gradient(135deg, #67a6b9, #4a8a9d);
+  color: white;
+  border-color: #67a6b9;
+  box-shadow: 0 4px 12px rgba(103, 166, 185, 0.4);
+}
+
+.itemsPerPageSelector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.itemsPerPageSelect {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #333;
+  font-weight: 500;
+}
+
+.itemsPerPageSelect:hover {
+  border-color: #67a6b9;
+  box-shadow: 0 2px 8px rgba(103, 166, 185, 0.2);
+}
+
+.itemsPerPageSelect:focus {
+  outline: none;
+  border-color: #67a6b9;
+  box-shadow: 0 0 0 3px rgba(103, 166, 185, 0.1);
+}
+
+/* Responsive Pagination */
+@media (max-width: 768px) {
+  .paginationContainer {
+    flex-direction: column;
+    gap: 15px;
+    padding: 12px;
+  }
+
+  .paginationInfo {
+    font-size: 0.8rem;
+  }
+
+  .paginationButton {
+    min-width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+
+  .itemsPerPageSelect {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+}

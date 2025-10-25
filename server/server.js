@@ -108,6 +108,7 @@ const notificationsRoutes = require('./routes/notifications')(pool);
 const settingsRoutes = require('./routes/settings')(pool);
 const dashboardRoutes = require('./routes/dashboard')(pool);
 const reportStepsRoutes = require('./routes/reportSteps')(pool);
+const statusRoutes = require('./routes/status')(pool);
 
 // Use routes
 app.use('/api/auth', authRoutes);
@@ -120,6 +121,7 @@ app.use('/api/notifications', notificationsRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/report-steps', reportStepsRoutes);
+app.use('/api', statusRoutes); // สำหรับ /api/status-mapping และ /api/statuses
 // report-steps routes ยังครอบคลุม /api/reports/:id/status, /api/reports/:id/next-step, etc
 app.use('/api', reportStepsRoutes); // เพื่อรองรับ /api/reports/* endpoints ที่เกี่ยวกับ steps
 
