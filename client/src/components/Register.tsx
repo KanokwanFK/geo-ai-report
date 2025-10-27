@@ -200,7 +200,7 @@ const Register = () => {
                     >
                         <Select placeholder="เลือกประเภทผู้ใช้">
                             <Option value="user">ผู้ใช้ทั่วไป</Option>
-                            <Option value="admin">ผู้ดูแลระบบ</Option>
+                            {/* <Option value="admin">ผู้ดูแลระบบ</Option> */}
                         </Select>
                     </Form.Item>
 
