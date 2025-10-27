@@ -9,6 +9,9 @@ const { verifyConnection } = require('./config/emailConfig')
 const WebSocket = require('ws')
 const http = require('http')
 
+// โหลด environment variables
+require('dotenv').config()
+
 const app = express()
 const port = process.env.PORT || 3003
 
@@ -64,13 +67,23 @@ app.use((req, res, next) => {
 })
 
 // การเชื่อมต่อฐานข้อมูล
-const pool = new Pool({
-    user: "postgres",
-    password: "postgres",
-    database: "report_system",
-    host: "localhost",
-    port: 5432,
-})
+const pool = new Pool(
+    process.env.DATABASE_URL ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    } : {
+        user: process.env.DB_USER ||  "postgres",
+        password: process.env.DB_PASSWORD || "postgres",
+        database: process.env.DB_NAME || "report_system",
+        host: process.env.DB_HOST || "localhost",
+        port: process.env.DB_PORT || 5432,
+        ssl: process.env.DB_SSL === 'true' ? {
+            rejectUnauthorized: false
+        } : false
+    }
+)
 
 // ทดสอบการเชื่อมต่อฐานข้อมูล
 pool.connect((err, client, release) => {
