@@ -1,22 +1,16 @@
 {
-  "name": "My AI",
+  "name": "My_AI",
   "nodes": [
     {
       "parameters": {
         "public": true,
-        "initialMessages": "สวีดัส",
-        "options": {
-          "showWelcomeScreen": true,
-          "subtitle": "ยินดีต้อนรับ",
-          "title": "รายงานสาธารณะ",
-          "responseMode": "lastNode"
-        }
+        "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.3,
       "position": [
         -160,
-        -96
+        -144
       ],
       "id": "67db0b6b-2096-4bf5-ac4f-bc2002d96b99",
       "name": "When chat message received",
@@ -24,15 +18,12 @@
     },
     {
       "parameters": {
-        "promptType": "define",
-        "text": "={{ $json.chatInput }}\n{{ $json.sessionId }}\n\nคุณคือแชทบอทที่เป็นมิตรสำหรับระบบ Geo-AI Report ตอบกลับอย่างละเอียดและสุภาพกับผู้ใช้ทุกคน พยายามขยายคำตอบให้มีเนื้อหามากขึ้น ไม่ตอบสั้นเกินไป ตอบเป็นภาษาไทยหรือภาษาที่ผู้ใช้พิมพ์มาเท่านั้น หากเป็นข้อมูลเฉพาะโปรเจคนี้ให้ตอบโดยอิงข้อมูลที่เกี่ยวข้องกับระบบรายงานปัญหาในประเทศไทย\n",
-        "hasOutputParser": true,
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2.2,
       "position": [
-        176,
+        160,
         -32
       ],
       "id": "163440b7-d206-4e27-8fa7-4dbb13d11460",
@@ -48,8 +39,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        -16,
-        208
+        752,
+        192
       ],
       "id": "00b3492b-1cc6-4743-a131-be98e272449a",
       "name": "Ollama Chat Model",
@@ -69,8 +60,8 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -160,
-        96
+        -208,
+        16
       ],
       "id": "4bd7069d-dcc0-4799-9c39-bdc986826f79",
       "name": "Webhook",
@@ -283,7 +274,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
       "typeVersion": 1.3,
       "position": [
-        752,
+        -48,
         192
       ],
       "id": "2a60a6cf-9352-4334-ae59-d88e4d5e2017",
@@ -311,13 +302,7 @@
     },
     "Ollama Chat Model": {
       "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Webhook": {
@@ -401,13 +386,24 @@
           }
         ]
       ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "05418d6d-2881-4d86-8b73-d5b718f693bb",
+  "versionId": "bf736bb9-c732-4d85-938c-f5534fed0389",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "558d88703fb65b2d0e44613bc35916258b0f0bf983c5d4730c00c424b77ca36a"
