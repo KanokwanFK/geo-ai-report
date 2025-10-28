@@ -63,9 +63,9 @@ const upload = multer({
 
 // ตั้งค่า Middleware สำหรับ Logging และ Debug
 app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`)
-  console.log('Headers:', req.headers)
-  console.log('Body:', req.body)
+  // console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`)
+  // console.log('Headers:', req.headers)
+  // console.log('Body:', req.body)
   next()
 })
 
