@@ -1,14 +1,17 @@
 import styles from "./styles/Landing.module.css";
 import Map  from "../components/imge/map..jpg";
+import { useNavigate } from "react-router";
 
 const Landing = () => {
+    const navigate = useNavigate();
+
     return(
         <div className={styles.Container}>
             <div className={styles.mapContainer}>
                 <img className={styles.mapImage} src={Map} alt="Map" />
             </div>
             <div className={styles.contentContainer}>
-                <button className={styles.startButton} onClick={() => window.location.href = '/Login'}>
+                <button className={styles.startButton} onClick={() => navigate('/Map')}>
                     เริ่มต้นใช้งาน
                 </button>
                 

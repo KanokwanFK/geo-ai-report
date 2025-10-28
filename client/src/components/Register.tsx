@@ -2,8 +2,9 @@ import styles from "./styles/Register.module.css";
 import { Button, Form, Input, DatePicker, Select, message } from "antd";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, Navigate } from "react-router";
 import { API_URL } from '../config/api';
+import { useAuth } from "../contexts/AuthContext";
 
 const { Option } = Select;
 
@@ -25,6 +26,12 @@ const Register = () => {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
+
+    // ป้องกัน user ที่ login อยู่แล้วเข้าหน้า Register
+    if (isAuthenticated) {
+        return <Navigate to="/" replace />;
+    }
 
     // Debug log for state changes
     console.log('Current states - loading:', loading, 'success:', success);

@@ -33,7 +33,7 @@ const Router = createBrowserRouter([
             },
             {
                 path: "/Map",
-                element: <Map />,
+                element: <ProtectedRoute><Map /></ProtectedRoute>,
             },
             {
                 path: "/Report",

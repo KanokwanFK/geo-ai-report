@@ -46,6 +46,19 @@
     text-align: center;
 }
 
+/* Info message (for protected route redirect) */
+.infoMessage {
+    background: #e3f2fd;
+    color: #1565c0;
+    padding: 12px;
+    border-radius: 4px;
+    border: 1px solid #90caf9;
+    font-size: 14px;
+    font-family: 'Kanit', 'Noto Sans Thai', sans-serif;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 /* Input group */
 .inputGroup {
     display: flex;

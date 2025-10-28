@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router";
 import styles from "./styles/Loing.module.css";
 import { loginUser } from "../services/authService";
 import { useAuth } from "../contexts/AuthContext";
@@ -11,8 +11,22 @@ const Login = () => {
     const [rememberMe, setRememberMe] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
+    const [justLoggedIn, setJustLoggedIn] = useState(false);
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const location = useLocation();
+    const { login, isAuthenticated } = useAuth();
+
+    // ดึง URL ที่ user พยายามจะเข้าถึงก่อน login
+    const from = (location.state as { from?: string })?.from || '/Map';
+    const fromProtectedRoute = Boolean((location.state as { from?: string })?.from);
+
+    // ป้องกัน user ที่ login อยู่แล้วเข้าหน้า Login
+    // ยกเว้นกรณีที่เพิ่ง login เสร็จ (กำลังจะ navigate ไป from)
+    useEffect(() => {
+        if (isAuthenticated && !isLoading && !justLoggedIn) {
+            navigate('/', { replace: true });
+        }
+    }, [isAuthenticated, isLoading, justLoggedIn, navigate]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -23,12 +37,16 @@ const Login = () => {
             const result = await loginUser(email, password);
             
             if (result.success) {
+                // ตั้ง flag ว่าเพิ่ง login เสร็จ เพื่อป้องกัน useEffect redirect
+                setJustLoggedIn(true);
+                
                 // Use auth context to store user data
                 // บังคับให้จำรหัสผ่านทุกครั้งเพื่อคงสถานะล็อกอินหลังรีเฟรช
                 login(result.user, true);
                 
-                // Navigate to map page
-                navigate('/Map');
+                // Navigate ไปที่หน้าที่ user พยายามจะเข้าก่อนหน้า
+                // หรือไป /Map ถ้าเข้ามาจากหน้า Login โดยตรง
+                navigate(from, { replace: true });
             } else {
                 setError(result.error || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ');
             }
@@ -43,6 +61,12 @@ const Login = () => {
         <div className={styles.loginContainer}>
             <div className={styles.loginBox}>
                 <h2 className={styles.title}>เข้าสู่ระบบ</h2>
+                
+                {fromProtectedRoute && (
+                    <div className={styles.infoMessage}>
+                        กรุณาเข้าสู่ระบบเพื่อเข้าถึงหน้านี้
+                    </div>
+                )}
                 
                 <form onSubmit={handleSubmit} className={styles.form}>
                     {error && (

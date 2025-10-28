@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router';
+import { Navigate, useLocation } from 'react-router';
 import { useAuth } from '../contexts/AuthContext';
 import type { ReactNode } from 'react';
 
@@ -70,10 +70,11 @@ const UnauthorizedPage: React.FC = () => (
 // Protected Route สำหรับ Admin เท่านั้น
 export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
   const { user, isAuthenticated } = useAuth();
+  const location = useLocation();
 
-  // ถ้าไม่ได้ login ให้ไปหน้า login
+  // ถ้าไม่ได้ login ให้ไปหน้า login พร้อมเก็บ URL ปัจจุบัน
   if (!isAuthenticated) {
-    return <Navigate to="/Login" replace />;
+    return <Navigate to="/Login" state={{ from: location.pathname }} replace />;
   }
 
   // ถ้า login แล้วแต่ไม่ใช่ admin ให้แสดงหน้า Unauthorized
@@ -92,9 +93,11 @@ interface ProtectedRouteProps {
 // Protected Route สำหรับผู้ใช้ที่ login แล้ว
 export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { isAuthenticated } = useAuth();
+  const location = useLocation();
 
   if (!isAuthenticated) {
-    return <Navigate to="/Login" replace />;
+    // เก็บ URL ที่ user พยายามจะเข้าถึง
+    return <Navigate to="/Login" state={{ from: location.pathname }} replace />;
   }
 
   return <>{children}</>;
