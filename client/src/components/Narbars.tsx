@@ -51,7 +51,7 @@ const Narbars = ({ onOpenChat }: { onOpenChat?: () => void }) => {
                             onClick={toggleMenu}
                             className={styles.menuButton}
                         />
-                        <span className={styles.title}>รายงานปัญหาสาธารณะ</span>
+                        <span className={styles.title}>ระบบแจ้งปัญหาสาธารณะ</span>
                     </div>
                     {/* แสดงเฉพาะปุ่มออกจากระบบบนมือถือ */}
                     {isAuthenticated ? (
