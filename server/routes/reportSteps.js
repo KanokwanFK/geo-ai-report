@@ -17,8 +17,6 @@ module.exports = (pool) => {
   // 1. ดูขั้นตอนทั้งหมด
   router.get('/', async (req, res) => {
     try {
-      console.log('=== Report Steps API Called ===');
-      
       // ตรวจสอบว่าตาราง report_steps มีอยู่หรือไม่
       const tableCheck = await pool.query(`
         SELECT EXISTS (
@@ -29,7 +27,6 @@ module.exports = (pool) => {
       `);
       
       if (!tableCheck.rows[0].exists) {
-        console.log('Table report_steps does not exist, returning default steps');
         // ส่งข้อมูลขั้นตอนเริ่มต้นถ้าตารางไม่มี
         const defaultSteps = [
           {
@@ -84,7 +81,6 @@ module.exports = (pool) => {
       const steps = await pool.query('SELECT * FROM report_steps WHERE is_active = true ORDER BY step_number ASC');
       
       if (steps.rows.length === 0) {
-        console.log('No active steps found in database, returning default steps');
         // ส่งข้อมูลขั้นตอนเริ่มต้นถ้าไม่มีข้อมูล
         const defaultSteps = [
           {
@@ -136,7 +132,6 @@ module.exports = (pool) => {
         return res.json(defaultSteps);
       }
       
-      console.log('Found steps:', steps.rows.length);
       res.json(steps.rows);
     } catch (err) {
       console.error('Error in /api/report-steps:', err.message);

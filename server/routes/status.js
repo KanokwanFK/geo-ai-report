@@ -5,8 +5,6 @@ module.exports = (pool) => {
   // Get status mapping จาก database
   router.get('/status-mapping', async (req, res) => {
     try {
-      console.log('=== Status Mapping API Called ===');
-      
       const result = await pool.query(`
         SELECT 
           mapping_id,
@@ -20,7 +18,6 @@ module.exports = (pool) => {
         ORDER BY step_number ASC
       `);
       
-      console.log(`Found ${result.rows.length} status mappings`);
       res.json(result.rows);
     } catch (err) {
       console.error('Error fetching status mapping:', err.message);
@@ -34,8 +31,6 @@ module.exports = (pool) => {
   // Get status info - สรุปข้อมูลสถานะทั้งหมด
   router.get('/status-info', async (req, res) => {
     try {
-      console.log('=== Status Info API Called ===');
-      
       // ดึงข้อมูลสถานะพร้อมจำนวนรายงานในแต่ละสถานะ
       const result = await pool.query(`
         SELECT 
@@ -51,7 +46,6 @@ module.exports = (pool) => {
         ORDER BY sm.step_number ASC
       `);
       
-      console.log(`Found ${result.rows.length} status info entries`);
       res.json(result.rows);
     } catch (err) {
       console.error('Error fetching status info:', err.message);

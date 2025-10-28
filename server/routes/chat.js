@@ -8,11 +8,6 @@ module.exports = (pool, broadcastMessage, notifyExternalSystem) => {
       const { session_id } = req.params;
       const { message, sender_type, user_id, report_id, timestamp } = req.body;
 
-      console.log('=== Webhook Chat Received ===');
-      console.log('Session ID:', session_id);
-      console.log('Message:', message);
-      console.log('Sender Type:', sender_type);
-
       // ตรวจสอบว่า session_id ถูกต้อง
       if (!session_id || !message) {
         return res.status(400).json({ 
@@ -62,8 +57,6 @@ module.exports = (pool, broadcastMessage, notifyExternalSystem) => {
         RETURNING *
       `, [session_id, user_id || null, report_id || null, message, sender_type || 'user']);
 
-      console.log('Message saved:', chatMessage.rows[0]);
-
       broadcastMessage(session_id, {
         type: 'new_message',
         data: chatMessage.rows[0]
@@ -91,11 +84,6 @@ module.exports = (pool, broadcastMessage, notifyExternalSystem) => {
     try {
       const { session_id } = req.params;
       const { report_id, old_status, new_status, admin_id, comment } = req.body;
-
-      console.log('=== Webhook Status Update Received ===');
-      console.log('Session ID:', session_id);
-      console.log('Report ID:', report_id);
-      console.log('Status Change:', old_status, '->', new_status);
 
       // บันทึกการเปลี่ยนแปลงสถานะ
       const statusLog = await pool.query(`

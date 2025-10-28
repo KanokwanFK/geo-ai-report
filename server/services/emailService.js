@@ -1,4 +1,4 @@
-const { createTransporter, emailDefaults } = require('../config/emailConfig');
+const { sendEmail: sendEmailViaConfig, emailDefaults } = require('../config/emailConfig');
 const {
   reportConfirmationTemplate,
   adminNotificationTemplate,
@@ -14,7 +14,7 @@ const {
  * ฟังก์ชันหลักสำหรับส่งอีเมล (Generic)
  * @param {Object} options - ตัวเลือกสำหรับการส่งอีเมล
  * @param {string|string[]} options.to - อีเมลผู้รับ (สามารถเป็น array ได้)
- * @param {string} options.subject - หัวข้ออีเมล
+ * @param {string} options.subject - หัวข้อีเมล
  * @param {string} options.html - HTML content
  * @param {string} options.text - ข้อความแบบ plain text (optional)
  * @param {string} options.from - ผู้ส่ง (optional, จะใช้ default ถ้าไม่ระบุ)
@@ -22,30 +22,28 @@ const {
  */
 const sendEmail = async (options) => {
   try {
-    const transporter = createTransporter();
-
-    // ตั้งค่า from address
-    const fromAddress = options.from || `${emailDefaults.from.name} <${emailDefaults.from.address}>`;
-
-    // สร้าง mail options
+    // เตรียม mail options
     const mailOptions = {
-      from: fromAddress,
       to: Array.isArray(options.to) ? options.to.join(', ') : options.to,
       subject: options.subject,
       html: options.html,
-      text: options.text || '', // ถ้าไม่มี text จะใช้ค่าว่าง
+      text: options.text || '',
+      from: {
+        name: emailDefaults.from.name,
+        address: emailDefaults.from.address
+      },
       replyTo: options.replyTo || emailDefaults.replyTo
     };
 
-    // ส่งอีเมล
-    const info = await transporter.sendMail(mailOptions);
+    // ส่งอีเมลผ่าน emailConfig (จะเลือกใช้ SendGrid API หรือ Gmail SMTP อัตโนมัติ)
+    const result = await sendEmailViaConfig(mailOptions);
 
     console.log(`✅ Email sent successfully to: ${mailOptions.to}`);
-    console.log(`Message ID: ${info.messageId}`);
+    console.log(`Message ID: ${result.messageId}`);
 
     return {
       success: true,
-      messageId: info.messageId,
+      messageId: result.messageId,
       recipients: mailOptions.to
     };
   } catch (error) {

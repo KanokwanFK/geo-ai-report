@@ -31,13 +31,6 @@ module.exports = (pool, sendNewReportEmails, sendStatusUpdateEmails, upload) => 
       // ส่งอีเมลแจ้งเตือน (ไม่บล็อคการตอบกลับ)
       // ทำงานแบบ async โดยไม่ await เพื่อไม่ให้ user รอนาน
       sendNewReportEmails(pool, reportData)
-        .then(emailResult => {
-          if (emailResult.success) {
-            console.log(`✅ Email notifications sent for report #${reportData.report_id}`);
-          } else {
-            console.error(`⚠️ Failed to send some email notifications: ${emailResult.error}`);
-          }
-        })
         .catch(error => {
           console.error(`❌ Error sending email notifications: ${error.message}`);
         });
@@ -57,9 +50,6 @@ module.exports = (pool, sendNewReportEmails, sendStatusUpdateEmails, upload) => 
   // 2. ดูรายงานทั้งหมดพร้อมรายละเอียด
   router.get('/', async (req, res) => {
     try {
-      console.log('=== Reports API Called ===');
-      console.log('Query params:', req.query);
-      
       const { status, user_id, problem_type_id, limit = 50, offset = 0 } = req.query;
       
       // ใช้ query ที่เรียบง่ายกว่าแทน view
@@ -148,12 +138,8 @@ module.exports = (pool, sendNewReportEmails, sendStatusUpdateEmails, upload) => 
       query += ` ORDER BY r.created_at DESC LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}`;
       params.push(limit, offset);
       
-      console.log('Executing query:', query);
-      console.log('With params:', params);
-      
       const reports = await pool.query(query, params);
       
-      console.log('Found reports:', reports.rows.length);
       res.json(reports.rows);
     } catch (err) {
       console.error('Error in /api/reports:', err.message);
@@ -191,12 +177,6 @@ module.exports = (pool, sendNewReportEmails, sendStatusUpdateEmails, upload) => 
       const { id } = req.params;
       const { status, admin_id, comment } = req.body;
       
-      console.log('=== Update Status API Called ===');
-      console.log('Report ID:', id, 'Type:', typeof id);
-      console.log('New Status:', status, 'Type:', typeof status);
-      console.log('Admin ID:', admin_id, 'Type:', typeof admin_id);
-      console.log('Comment:', comment, 'Type:', typeof comment);
-      
       // ดึงสถานะเดิมก่อนอัพเดท
       const oldReportResult = await pool.query(
         'SELECT status FROM report WHERE report_id = $1',
@@ -204,21 +184,16 @@ module.exports = (pool, sendNewReportEmails, sendStatusUpdateEmails, upload) => 
       );
       
       if (oldReportResult.rowCount === 0) {
-        console.log('No report found with ID:', id);
         return res.status(404).json({ error: 'ไม่พบรายงาน' });
       }
       
       const oldStatus = oldReportResult.rows[0].status;
-      console.log('Old Status:', oldStatus);
       
       // อัพเดทสถานะ
-      console.log('Attempting simple status update...');
       const updateResult = await pool.query(
         'UPDATE report SET status = $1, updated_at = CURRENT_TIMESTAMP WHERE report_id = $2 RETURNING *',
         [status, id]
       );
-      
-      console.log('Update completed, affected rows:', updateResult.rowCount);
       
       const updatedReport = updateResult.rows[0];
       
@@ -229,19 +204,10 @@ module.exports = (pool, sendNewReportEmails, sendStatusUpdateEmails, upload) => 
         newStatus: status,
         adminId: admin_id,
         comment: comment || ''
-      })
-        .then(emailResult => {
-          if (emailResult.success) {
-            console.log(`✅ Status update email notifications sent for report #${id}`);
-          } else {
-            console.error(`⚠️ Failed to send status update emails: ${emailResult.error}`);
-          }
-        })
-        .catch(error => {
-          console.error(`❌ Error sending status update emails: ${error.message}`);
-        });
+      }).catch(error => {
+        console.error(`❌ Error sending status update emails: ${error.message}`);
+      });
       
-      console.log('Sending success response');
       res.json({
         message: 'อัพเดทสถานะรายงานสำเร็จ',
         report: updatedReport,
@@ -249,9 +215,7 @@ module.exports = (pool, sendNewReportEmails, sendStatusUpdateEmails, upload) => 
         notification: 'กำลังส่งอีเมลแจ้งเตือน'
       });
     } catch (err) {
-      console.error('=== ERROR in update status ===');
-      console.error('Error message:', err.message);
-      console.error('Error stack:', err.stack);
+      console.error('Error in update status:', err.message);
       res.status(500).json({ error: 'เกิดข้อผิดพลาดในการอัพเดทสถานะรายงาน' });
     }
   });
@@ -425,8 +389,6 @@ module.exports = (pool, sendNewReportEmails, sendStatusUpdateEmails, upload) => 
   // Get status colors and info
   router.get('/status-info', async (req, res) => {
     try {
-      console.log('=== Status Info API Called ===');
-      
       // ใช้ query ที่เรียบง่ายกว่า - นับจำนวนรายงานตามสถานะ
       const statusInfo = await pool.query(`
         SELECT 
@@ -464,12 +426,9 @@ module.exports = (pool, sendNewReportEmails, sendStatusUpdateEmails, upload) => 
         ORDER BY step_number
       `);
       
-      console.log('Status info query result:', statusInfo.rows);
       res.json(statusInfo.rows);
     } catch (err) {
-      console.error('=== ERROR in status-info ===');
-      console.error('Error message:', err.message);
-      console.error('Error stack:', err.stack);
+      console.error('Error in status-info:', err.message);
       res.status(500).json({ error: 'เกิดข้อผิดพลาดในการดึงข้อมูล status info' });
     }
   });
