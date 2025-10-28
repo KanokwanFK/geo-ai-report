@@ -3,6 +3,7 @@ import { Button, Form, Input, DatePicker, Select, message } from "antd";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { API_URL } from '../config/api';
 
 const { Option } = Select;
 
@@ -48,7 +49,7 @@ const Register = () => {
             };
 
             console.log('Sending data to server:', userData);
-            const response = await axios.post('http://localhost:3003/api/auth/register', userData);
+            const response = await axios.post(`${API_URL}/auth/register`, userData);
             console.log('Server response:', response.data);
             
             if (response.data.success) {

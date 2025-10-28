@@ -3,6 +3,7 @@ import styles from './styles/Problem.module.css';
 import { useReportStatus } from '../hooks/useReportStatus';
 import { exportReportsToCSV, downloadCSV } from '../utils/problemUtils';
 import Modal from './Modal';
+import { API_URL } from '../config/api';
 
 const Problem: React.FC = () => {
     // ใช้ custom hook สำหรับจัดการข้อมูล
@@ -140,7 +141,7 @@ const Problem: React.FC = () => {
         // โหลดข้อมูล problem types
         const fetchProblemTypes = async () => {
             try {
-                const response = await fetch('http://localhost:3003/api/problem-types');
+                const response = await fetch(`${API_URL}/problem-types`);
                 const data = await response.json();
                 console.log('Problem types loaded:', data);
                 setProblemTypes(data);

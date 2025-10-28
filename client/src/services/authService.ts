@@ -1,5 +1,8 @@
 // API Base URL - adjust this to match your server configuration
-const API_BASE_URL = 'http://localhost:3003/api';
+import axios from 'axios';
+import { API_URL } from '../config/api';
+
+const API_BASE_URL = API_URL;
 
 // Login API function
 export const loginUser = async (email: string, password: string) => {
