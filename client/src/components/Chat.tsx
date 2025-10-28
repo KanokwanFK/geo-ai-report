@@ -69,13 +69,22 @@ const Chat = ({ onClose }: { onClose: () => void }) => {
         setInput('');
         setLoading(true);
         try {
+            // ngrok (ใช้งานอยู่)
             const res = await fetch('/webhook/400731d1-9bf5-4c51-aff2-ec047b2c7e43/chat', {
+                // localhost 
+                // const res = await fetch('/webhook/400731d1-9bf5-4c51-aff2-ec047b2c7e43/chat', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'ngrok-skip-browser-warning': 'true' // สำคัญสำหรับ ngrok
+                },
                 body: JSON.stringify({
-                    chatInput: input,
-                    sender_type: 'user',
-                    sessionId: '400731d1-9bf5-4c51-aff2-ec047b2c7e43'
+                    sessionId: '4aa27fce56064887a773b5e62d1e93b0',
+                    action: 'sendMessage',
+                    chatInput: input
+                    // chatInput: input,
+                    // sender_type: 'user',
+                    // sessionId: '400731d1-9bf5-4c51-aff2-ec047b2c7e43'
                 })
             });
             const data = await res.json();
