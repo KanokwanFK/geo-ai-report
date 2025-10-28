@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "npm install && npm run setup-db && nodemon server.js",
+    "dev": "nodemon server.js",
     "setup-db": "node setup-db.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
