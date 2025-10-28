@@ -1,5 +1,5 @@
 // API Base URL - adjust this to match your server configuration
-import axios from 'axios';
+// import axios from 'axios';
 import { API_URL } from '../config/api';
 
 const API_BASE_URL = API_URL;
