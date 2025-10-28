@@ -2,11 +2,16 @@ import React, { useState, useRef } from 'react';
 import styles from './styles/Chat.module.css';
 import { SendOutlined } from '@ant-design/icons';
 import robot from './imge/robot.png';
+import { API_URL, API_BASE_URL } from '../config/api';
+
+// N8N Webhook URL from environment variable
+const N8N_WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL || 
+  `${API_BASE_URL}/webhook/400731d1-9bf5-4c51-aff2-ec047b2c7e43/chat`;
 
 // ดึงจำนวนรายงานแต่ละจังหวัดจาก API
 async function fetchReportCountByProvince() {
     try {
-        const res = await fetch('/api/dashboard/reports-by-province');
+        const res = await fetch(`${API_URL}/dashboard/reports-by-province`);
         if (!res.ok) return null;
         const provinces = await res.json();
         return provinces;
@@ -17,7 +22,7 @@ async function fetchReportCountByProvince() {
 // ดึงจำนวนรายงานตามแต่ละประเภทปัญหาจาก API
 async function fetchReportCountByType() {
     try {
-        const res = await fetch('/api/dashboard/reports-by-type');
+        const res = await fetch(`${API_URL}/dashboard/reports-by-type`);
         if (!res.ok) return null;
         const types = await res.json();
         return types;
@@ -28,7 +33,7 @@ async function fetchReportCountByType() {
 // ดึงประเภทปัญหาทั้งหมดจาก API
 async function fetchProblemTypes() {
     try {
-        const res = await fetch('/api/problem-types');
+        const res = await fetch(`${API_URL}/problem-types`);
         if (!res.ok) return null;
         const types = await res.json();
         return types;
@@ -39,7 +44,7 @@ async function fetchProblemTypes() {
 // ดึงข้อมูลสถานะและจำนวนรายงานจาก API
 async function fetchProjectStats() {
     try {
-        const res = await fetch('/api/dashboard/stats');
+        const res = await fetch(`${API_URL}/dashboard/stats`);
         if (!res.ok) return null;
         const stats = await res.json();
         return stats;
@@ -69,10 +74,8 @@ const Chat = ({ onClose }: { onClose: () => void }) => {
         setInput('');
         setLoading(true);
         try {
-            // ngrok (ใช้งานอยู่)
-            const res = await fetch('/webhook/400731d1-9bf5-4c51-aff2-ec047b2c7e43/chat', {
-                // localhost 
-                // const res = await fetch('/webhook/400731d1-9bf5-4c51-aff2-ec047b2c7e43/chat', {
+            // Use n8n webhook URL from environment variable
+            const res = await fetch(N8N_WEBHOOK_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

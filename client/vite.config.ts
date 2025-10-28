@@ -4,21 +4,20 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server:{
+  server: {
+    // Development only settings
     allowedHosts: [
-      'hampton-marsh-solely-les.trycloudflare.com',
-      '.trycloudflare.com', // อนุญาตทุก subdomain ของ cloudflare
+      'localhost',
+      '.trycloudflare.com',
+      '.ngrok-free.dev',
     ],
-    proxy:{
-      // ngrok (ใช้งานอยู่) https://punchiest-tillie-graphemically.ngrok-free.dev/webhook/400731d1-9bf5-4c51-aff2-ec047b2c7e43/chat
-      '/webhook/400731d1-9bf5-4c51-aff2-ec047b2c7e43': {
-        target: 'https://punchiest-tillie-graphemically.ngrok-free.dev',
+    // Note: Proxy only works in development (npm run dev)
+    // Production builds use direct API calls via VITE_API_BASE_URL
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3003',
         changeOrigin: true,
-        secure: false
       },
-      // localhost 
-      // '/webhook': 'http://localhost:5678',
-      '/api': 'http://localhost:3003'
     }
   }
 })
