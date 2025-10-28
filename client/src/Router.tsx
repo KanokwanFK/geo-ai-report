@@ -20,8 +20,8 @@ const Router = createBrowserRouter([
         element: <LayoutApp />,
         children: [
             {
-                 index: true,
-               element: <Landing />
+                index: true,
+                element: <Landing />
             },
             {
                 path: "/Login",
