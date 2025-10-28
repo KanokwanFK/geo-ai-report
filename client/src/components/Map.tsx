@@ -7,6 +7,7 @@ import { getReports, getReportById } from '../services/reportService';
 import Modal from './Modal';
 import ReportForm from './ReportForm';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE_URL } from '../config/api';
 
 // Interface สำหรับข้อมูล report
 interface Report {
@@ -91,7 +92,7 @@ const Map = () => {
             let imageGallery = '';
             try {
                 console.log('Fetching details for report:', report.report_id);
-                const response = await fetch(`http://localhost:3003/api/reports/${report.report_id}/images`);
+                const response = await fetch(`${API_BASE_URL}/api/reports/${report.report_id}/images`);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -110,7 +111,7 @@ const Map = () => {
                                     // หมายเหตุ: image_path ที่ได้จาก backend มี /uploads/ อยู่แล้ว ไม่ต้องต่อซ้ำ
                                     // ตัวอย่าง: image.image_path = /uploads/image-123456.jpg
                                     // ดังนั้นควรใช้แบบนี้
-                                    const imageUrl = `http://localhost:3003${image.image_path}`;
+                                    const imageUrl = `${API_BASE_URL}${image.image_path}`;
                                     console.log('Image URL:', imageUrl, 'for image:', image);
                                     return `
                                         <div style="position: relative; ${index >= 5 && images.length > 6 ? 'cursor: pointer;' : ''}">

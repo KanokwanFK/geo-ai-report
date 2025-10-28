@@ -1,7 +1,8 @@
 // Report Service สำหรับจัดการ API เกี่ยวกับรายงาน
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
-const API_BASE_URL = 'http://localhost:3003/api';
+const API_BASE_URL = API_URL;
 
 // Configure axios defaults
 axios.defaults.timeout = 10000; // 10 second timeout

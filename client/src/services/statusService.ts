@@ -1,6 +1,9 @@
 // Status Service สำหรับจัดการข้อมูลสถานะจากฐานข้อมูล
 
-const API_BASE_URL = 'http://localhost:3003/api';
+import axios from 'axios';
+import { API_URL } from '../config/api';
+
+const API_BASE_URL = API_URL;
 
 export interface StatusMapping {
     mapping_id: number;
