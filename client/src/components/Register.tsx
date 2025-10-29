@@ -61,11 +61,15 @@ const Register = () => {
             
             if (response.data.success) {
                 console.log('Registration successful!');
-                setLoading(false);
-                setSuccess(true);
+                message.success('ลงทะเบียนสำเร็จ!');
                 form.resetFields();
-                message.success('ลงทะเบียนสำเร็จ กำลังไปยังหน้าล็อคอิน...');
-                navigate('/Login');
+                setSuccess(true);
+                setLoading(false);
+                
+                // รอ 1 วินาทีแล้วไปหน้า login
+                setTimeout(() => {
+                    navigate('/login');
+                }, 1000);
             } else {
                 console.log('Registration failed:', response.data.message);
                 message.error(response.data.message || 'เกิดข้อผิดพลาดในการลงทะเบียน');
@@ -225,7 +229,7 @@ const Register = () => {
                     </Form.Item>
 
                     <div className={styles.loginLink}>
-                        มีบัญชีแล้ว? <a href="/login">เข้าสู่ระบบ</a>
+                        กดลงทะเบียนแล้ว? <a href="/login">เข้าสู่ระบบ</a>
                     </div>
                 </Form>
             </div>

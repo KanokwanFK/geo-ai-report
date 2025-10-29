@@ -33,7 +33,7 @@
 /* Start button */
 .startButton {
     background: linear-gradient(135deg, #87CEEB, #84c2da);
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     border: none;
     padding: 12px 40px;
     font-size: 14px;
