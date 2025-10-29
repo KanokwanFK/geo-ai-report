@@ -229,7 +229,7 @@ const Register = () => {
                     </Form.Item>
 
                     <div className={styles.loginLink}>
-                        กดลงทะเบียนแล้ว? <a href="/login">เข้าสู่ระบบ</a>
+                        กดลงทะเบียนแล้ว หรือมีบัญชีอยู่แล้ว? <a href="/login">เข้าสู่ระบบ</a>
                     </div>
                 </Form>
             </div>

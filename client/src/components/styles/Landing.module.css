@@ -32,7 +32,7 @@
 
 /* Start button */
 .startButton {
-    background: linear-gradient(135deg, #87CEEB, #84c2da);
+    background: linear-gradient(135deg, #78b7d0, #7cb7cf);
     color: rgb(255, 255, 255);
     border: none;
     padding: 12px 40px;
@@ -49,7 +49,7 @@
 .startButton:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(77, 119, 154, 0.4);
-    background: linear-gradient(135deg, #5896b1, #67a6b9);
+    background: linear-gradient(135deg, #4f829a, #67a6b9);
 }
 
 .startButton:active {
