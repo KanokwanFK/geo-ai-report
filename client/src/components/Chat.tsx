@@ -82,7 +82,7 @@ const Chat = ({ onClose }: { onClose: () => void }) => {
                     'ngrok-skip-browser-warning': 'true' // สำคัญสำหรับ ngrok
                 },
                 body: JSON.stringify({
-                    sessionId: '4aa27fce56064887a773b5e62d1e93b0',
+                    sessionId: 'b6b73cdbcccb4770ae5ceb01d071e038',
                     action: 'sendMessage',
                     chatInput: input
                     // chatInput: input,
