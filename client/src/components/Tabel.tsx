@@ -203,14 +203,16 @@ const Table = () => {
         }
 
         const csvContent = [
-            ['รหัส', 'วันที่', 'ผู้รายงาน', 'ประเภท', 'สถานะ', 'รายละเอียด'],
+            ['รหัส', 'วันที่', 'ผู้รายงาน', 'ประเภท', 'สถานะ', 'รายละเอียด', 'Latitude', 'Longitude'],
             ...filteredReports.map((report: Report) => [
                 report.report_id,
                 formatDate(report.created_at),
                 `${report.first_name} ${report.last_name}`,
                 report.problem_type,
                 getStatusText(report.status, statusMappings),
-                report.description
+                report.description,
+                report.latitude,
+                report.longitude
             ])
         ].map(row => row.join(',')).join('\n');
 

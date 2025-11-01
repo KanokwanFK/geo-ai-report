@@ -64,7 +64,7 @@ const Login = () => {
                 
                 {fromProtectedRoute && (
                     <div className={styles.infoMessage}>
-                        กรุณาเข้าสู่ระบบเพื่อเข้าถึงหน้านี้
+                        กรุณาเข้าสู่ระบบเพื่อเข้าถึงระบบการแจ้งปัญหาสาธารณะ
                     </div>
                 )}
                 
