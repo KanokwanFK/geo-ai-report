@@ -79,10 +79,10 @@ const Chat = ({ onClose }: { onClose: () => void }) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'ngrok-skip-browser-warning': 'true' // สำคัญสำหรับ ngrok
+                    'ngrok-skip-browser-warning': 'true' // สำคัญสำหรับ ngrok b6b73cdbcccb4770ae5ceb01d071e038 db3c3b608c4c495ca993a63b8e21cb4e
                 },
                 body: JSON.stringify({
-                    sessionId: 'b6b73cdbcccb4770ae5ceb01d071e038',
+                    sessionId: 'db3c3b608c4c495ca993a63b8e21cb4e',
                     action: 'sendMessage',
                     chatInput: input
                     // chatInput: input,
